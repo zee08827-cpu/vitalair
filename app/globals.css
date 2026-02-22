@@ -5,13 +5,6 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,4 +16,87 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  @keyframes fadeBounce {
+    0% { opacity: 0; transform: translateY(20px); }
+    60% { opacity: 0.8; transform: translateY(-5px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-bounce {
+    animation: fadeBounce 0.8s ease-out forwards;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+  }
+  .animate-wiggle {
+    animation: wiggle 0.3s ease-in-out;
+  }
+  .hover\:animate-wiggle:hover {
+    animation: wiggle 0.3s ease-in-out;
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    20%, 80% { opacity: 0.8; transform: scale(1); }
+  }
+  .animate-sparkle {
+    animation: sparkle 6s ease-in-out infinite;
+  }
+
+  @keyframes drift-slow {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, 20px) rotate(120deg); }
+    66% { transform: translate(20px, -20px) rotate(240deg); }
+  }
+  .animate-drift-slow {
+    animation: drift-slow 25s infinite ease-in-out;
+  }
+
+  @keyframes drift-medium {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-40px, 30px) rotate(-120deg); }
+    66% { transform: translate(-20px, -30px) rotate(-240deg); }
+  }
+  .animate-drift-medium {
+    animation: drift-medium 20s infinite ease-in-out;
+  }
+
+  @keyframes drift-fast {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(50px, -30px) rotate(180deg); }
+    66% { transform: translate(-30px, 40px) rotate(360deg); }
+  }
+  .animate-drift-fast {
+    animation: drift-fast 15s infinite ease-in-out;
+  }
+
+  @keyframes drift-slow-reverse {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-30px, -20px) rotate(-120deg); }
+    66% { transform: translate(20px, 30px) rotate(-240deg); }
+  }
+  .animate-drift-slow-reverse {
+    animation: drift-slow-reverse 22s infinite ease-in-out;
+  }
+
+  @keyframes flow-right {
+    0%, 100% { transform: translateX(-100px); }
+    50% { transform: translateX(100px); }
+  }
+  .animate-flow-right {
+    animation: flow-right 30s infinite alternate ease-in-out;
+  }
+
+  @keyframes flow-left {
+    0%, 100% { transform: translateX(100px); }
+    50% { transform: translateX(-100px); }
+  }
+  .animate-flow-left {
+    animation: flow-left 25s infinite alternate ease-in-out;
+  }
 }
