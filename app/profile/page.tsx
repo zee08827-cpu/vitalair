@@ -2,6 +2,15 @@
 
 import React, { useState } from "react";
 import { Inter } from "next/font/google";
+import { supabase } from "@/lib/supabaseClient";
+
+// Define a Profile type for TypeScript safety
+interface Profile {
+  name: string;
+  age: number | null;
+  healthComplications: string;
+  notifyBadWeather: boolean;
+}
 
 // Use Inter as a modern sans-serif font
 const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
@@ -57,13 +66,29 @@ const FallingLeaves = () => {
 // ============= MAIN PROFILE COMPONENT =============
 export default function UserProfilePage() {
   const [fullName, setFullName] = useState("");
-  const [age, setAge] = useState<number | "">("");
+  const [age, setAge] = useState<number | null>(null);
   const [healthComplications, setHealthComplications] = useState("");
   const [notifyBadWeather, setNotifyBadWeather] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Profile saved! (demo)");
+
+    const profile: Profile = {
+      name: fullName,
+      age: age,
+      healthComplications,
+      notifyBadWeather,
+    };
+
+    const { data, error } = await supabase.from("profiles").insert([profile]);
+
+    if (error) {
+      console.error("Error saving profile:", error);
+      alert("Failed to save profile.");
+    } else {
+      console.log("Profile saved:", data);
+      alert("Profile saved to Supabase!");
+    }
   };
 
   return (
@@ -106,9 +131,9 @@ export default function UserProfilePage() {
               </label>
               <input
                 type="number"
-                value={age}
+                value={age ?? ""}
                 onChange={(e) =>
-                  setAge(e.target.value ? Number(e.target.value) : "")
+                  setAge(e.target.value ? Number(e.target.value) : null)
                 }
                 className="w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition text-blue-950 placeholder-blue-600/50"
                 placeholder="Your age"

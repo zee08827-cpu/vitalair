@@ -43,7 +43,9 @@ export default function CityPage() {
         `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
       );
       const airJson = await airRes.json();
-      setAirData(airJson.list[0]); // first entry
+      setAirData(airJson.list[0]); 
+      // first entry
+      localStorage.setItem('lastSearchedCity', searchQuery.trim());
     } catch (err) {
       setError('Failed to fetch data. Check your API key or network.');
     }
